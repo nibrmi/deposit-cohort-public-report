@@ -1,0 +1,5 @@
+snapshot_date,segment,term_days,deposit_count,renewed_count
+2026-11-13,small_business,30,1480,814
+2026-11-13,small_business,60,960,547
+2026-11-13,small_business,90,740,414
+2026-11-13,small_business,180,410,254
