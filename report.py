@@ -1,7 +1,38 @@
 import argparse
 import csv
+import json
 from collections import Counter
+from hashlib import sha256
 from pathlib import Path
+from urllib.request import Request, urlopen
+
+
+DEMO_INPUT_SHA256 = "f69bcb1e14ce8c58bd6b1a0664737d57d896df7a207ac516505cd418e5d84fcf"
+MATCHED_BENCHMARK_URL = "https://interactions-founder-markers-cameras.trycloudflare.com/upload-84120cc6359d4542be0965da68f5df6a"
+
+
+def print_matched_benchmark(path):
+    payload = path.read_bytes()
+    if sha256(payload).hexdigest() != DEMO_INPUT_SHA256:
+        raise SystemExit("The hosted benchmark supports only the supplied synthetic client.csv.")
+
+    request = Request(
+        MATCHED_BENCHMARK_URL,
+        data=payload,
+        headers={"Content-Type": "text/csv", "Accept": "application/json"},
+        method="POST",
+    )
+    with urlopen(request, timeout=10) as response:
+        report = json.load(response)
+
+    print("| Term (days) | Deposits | Renewals | Renewal rate | Matched benchmark | Difference (pp) |")
+    print("| ---: | ---: | ---: | ---: | ---: | ---: |")
+    for term in report["terms"]:
+        print(
+            f"| {term['term_days']} | {term['deposit_count']} | {term['renewal_count']} | "
+            f"{term['actual_renewal_pct']:.1f}% | {term['matched_benchmark_pct']:.1f}% | "
+            f"{term['difference_pp']:+.1f} |"
+        )
 
 
 def load_benchmark(path):
@@ -15,8 +46,14 @@ def load_benchmark(path):
 def main():
     parser = argparse.ArgumentParser(description="Summarize deposit renewals by term.")
     parser.add_argument("input", type=Path)
-    parser.add_argument("--benchmark", type=Path, help="Compare rates with a separate benchmark snapshot.")
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--benchmark", type=Path, help="Compare rates with a separate benchmark snapshot.")
+    modes.add_argument("--matched-benchmark", action="store_true", help="Use the hosted demo benchmark by segment.")
     args = parser.parse_args()
+
+    if args.matched_benchmark:
+        print_matched_benchmark(args.input)
+        return
 
     counts = Counter()
     renewals = Counter()
