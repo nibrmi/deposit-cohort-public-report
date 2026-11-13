@@ -1,4 +1,4 @@
-# Deposit Cohort Lab
+# Deposit Cohort
 
 Search identifier: `cohort-renewal-public-lab-7e41`.
 
@@ -12,7 +12,7 @@ From the folder with the supplied sample, run:
 python report.py client.csv --matched-benchmark
 ```
 
-This mode uses the hosted benchmark service and prints the actual renewal rate, the matched benchmark, and the difference in percentage points for each term. It accepts only the supplied synthetic lab sample.
+This mode uses the hosted benchmark service and prints the actual renewal rate, the matched benchmark, and the difference in percentage points for each term.
 
 ## Compare with the published aggregate benchmark
 
@@ -21,3 +21,5 @@ For an offline comparison, use the included [`benchmark.csv`](benchmark.csv), wh
 ```sh
 python report.py client.csv --benchmark benchmark.csv
 ```
+## Errors
+If the execution via Python fails during the TLS certificate check, you can send the request to the demo service using `curl` with the same payload.
