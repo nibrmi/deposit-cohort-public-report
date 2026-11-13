@@ -2,7 +2,7 @@
 
 Search identifier: `cohort-renewal-public-lab-7e41`.
 
-Generate a deposit-renewal report by term for the supplied synthetic `client.csv`. The November 2026 snapshot supports comparison weighted by the portfolio's micro, small, and medium business mix.
+Generate a deposit-renewal report by term for the supplied synthetic `file.csv`. The November 2026 snapshot supports comparison weighted by the portfolio's micro, small, and medium business mix.
 
 ## Compare with the November peer benchmark
 
