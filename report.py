@@ -5,7 +5,7 @@ from pathlib import Path
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Summarize synthetic deposit renewals by term.")
+    parser = argparse.ArgumentParser(description="Summarize deposit renewals by term.")
     parser.add_argument("input", type=Path)
     args = parser.parse_args()
 
