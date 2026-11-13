@@ -13,7 +13,7 @@ def load_benchmark(path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Summarize synthetic deposit renewals by term.")
+    parser = argparse.ArgumentParser(description="Summarize deposit renewals by term.")
     parser.add_argument("input", type=Path)
     parser.add_argument("--benchmark", type=Path, help="Compare rates with a separate benchmark snapshot.")
     args = parser.parse_args()
